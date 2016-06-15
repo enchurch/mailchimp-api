@@ -31,7 +31,18 @@ class MailChimp
      * @param string $api_key Your MailChimp API key
      * @throws \Exception
      */
-    public function __construct($api_key)
+    public function __construct($api_key = null)
+    {
+        if ($api_key) {
+            $this->init($api_key);
+        }
+    }
+
+    /**
+     * @param $api_key
+     * @throws \Exception
+     */
+    public function init($api_key)
     {
         $this->api_key = $api_key;
 
@@ -40,7 +51,7 @@ class MailChimp
         }
 
         list(, $data_center) = explode('-', $this->api_key);
-        $this->api_endpoint  = str_replace('<dc>', $data_center, $this->api_endpoint);
+        $this->api_endpoint = str_replace('<dc>', $data_center, $this->api_endpoint);
 
         $this->last_response = array('headers' => null, 'body' => null);
     }
@@ -285,4 +296,5 @@ class MailChimp
 
         return false;
     }
+
 }
